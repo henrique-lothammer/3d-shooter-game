@@ -1,2 +1,2 @@
 # 3d-shooter-game
- An 3d top down shooter game
+ A prototype for an 3d top down shooter game
