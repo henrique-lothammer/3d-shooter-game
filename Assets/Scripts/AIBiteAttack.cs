@@ -6,6 +6,7 @@ public class AIBiteAttack : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] float minDistanceToTarget = 2.5f;
+    [SerializeField] float damage = 1;
 
     float timeBetweenAttacks = 1;
     float nextAttackTime;
@@ -15,11 +16,13 @@ public class AIBiteAttack : MonoBehaviour
     private void Start()
     {
         if (!target) target = GameObject.FindGameObjectWithTag("Player").transform;
+
+        target.GetComponent<LivingEntity>().OnDeath += OnTargetDeath;
     }
 
     void Update()
     {
-        if (Vector3.Distance(transform.position, target.position) <= minDistanceToTarget)
+        if (target && Vector3.Distance(transform.position, target.position) <= minDistanceToTarget)
         {
             if (Time.time > nextAttackTime)
             {
@@ -43,9 +46,16 @@ public class AIBiteAttack : MonoBehaviour
 
         float attackSpeed = 3;
         float percent = 0;
+        bool hasBitted = false;
 
         while (percent <= 1)
         {
+            if(percent >= 0.5f && !hasBitted)
+            {
+                hasBitted = true;
+                target.GetComponent<LivingEntity>().TakeDamage(damage);
+            }
+
             percent += Time.deltaTime * attackSpeed;
             float interpolation = 4 * (-percent * percent + percent); //parabole equation
             transform.position = Vector3.Lerp(originalPosition, attackPosition, interpolation);
@@ -54,8 +64,14 @@ public class AIBiteAttack : MonoBehaviour
         }
     }
 
+    void OnTargetDeath()
+    {
+        if (attack != null) StopCoroutine(attack);
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
     void OnDestroy()
     {
-        StopCoroutine(attack);
+        if (attack != null) StopCoroutine(attack);
     }
 }

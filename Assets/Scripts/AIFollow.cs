@@ -19,12 +19,13 @@ public class AIFollow : MonoBehaviour
         if (!target) target = GameObject.FindGameObjectWithTag("Player").transform;
         pathfinder.stoppingDistance = stopDistance;
 
+        target.GetComponent<LivingEntity>().OnDeath += OnTargetDeath;
         updatePath = StartCoroutine(UpdatePath());
     }
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, target.position) > stopDistance)
+        if (target && Vector3.Distance(transform.position, target.position) > stopDistance)
         {
             updatePath = StartCoroutine(UpdatePath());
         }
@@ -44,6 +45,11 @@ public class AIFollow : MonoBehaviour
 
             yield return new WaitForSeconds(refreshRate);
         }
+    }
+
+    void OnTargetDeath()
+    {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void OnDestroy()

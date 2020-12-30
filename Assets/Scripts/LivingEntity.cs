@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,14 +9,21 @@ public class LivingEntity : MonoBehaviour
     float health;
     bool dead;
 
+    public event Action OnDeath;
+
     private void Start()
     {
         health = startHealth;
     }
 
-    public void TakeHit(float damage, RaycastHit hit)
+    public void TakeHit(float damage, Vector3 hitPoint, Vector3 hitDirection)
     {
+        //do some particle effects
+        TakeDamage(damage);
+    }
 
+    public void TakeDamage(float damage)
+    {
         if (health > 0 && !dead)
         {
             health -= damage;
@@ -30,6 +38,10 @@ public class LivingEntity : MonoBehaviour
     public void Die()
     {
         dead = true;
+        if (OnDeath != null)
+        {
+            OnDeath();
+        }
         GameObject.Destroy(gameObject);
     }
 }
