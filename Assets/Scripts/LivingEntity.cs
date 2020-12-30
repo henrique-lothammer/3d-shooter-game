@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LivingEntity : MonoBehaviour
 {
+    [SerializeField] ParticleSystem hitEffect;
     [SerializeField] float startHealth;
     float health;
     bool dead;
@@ -18,7 +19,11 @@ public class LivingEntity : MonoBehaviour
 
     public void TakeHit(float damage, Vector3 hitPoint, Vector3 hitDirection)
     {
-        //do some particle effects
+        if (hitEffect)
+        {
+            var effect = Instantiate(hitEffect.gameObject, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+            Destroy(effect, hitEffect.main.startLifetime.constant);
+        }
         TakeDamage(damage);
     }
 

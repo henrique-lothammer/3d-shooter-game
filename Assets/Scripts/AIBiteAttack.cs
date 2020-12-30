@@ -53,7 +53,7 @@ public class AIBiteAttack : MonoBehaviour
             if(percent >= 0.5f && !hasBitted)
             {
                 hasBitted = true;
-                target.GetComponent<LivingEntity>().TakeDamage(damage);
+                target.GetComponent<LivingEntity>().TakeHit(damage,attackPosition, transform.up);
             }
 
             percent += Time.deltaTime * attackSpeed;

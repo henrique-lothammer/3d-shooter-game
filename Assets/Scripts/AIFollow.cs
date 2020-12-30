@@ -49,6 +49,7 @@ public class AIFollow : MonoBehaviour
 
     void OnTargetDeath()
     {
+        StopCoroutine(updatePath);
         target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 

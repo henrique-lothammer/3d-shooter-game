@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rigidbd = GetComponent<Rigidbody>();
+        
     }
 
     void FixedUpdate()
