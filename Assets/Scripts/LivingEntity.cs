@@ -5,8 +5,13 @@ using UnityEngine;
 
 public class LivingEntity : MonoBehaviour
 {
-    [SerializeField] ParticleSystem hitEffect;
     [SerializeField] float startHealth;
+    [SerializeField] ParticleSystem hitEffect;
+    [SerializeField] ParticleSystem deathEffect;
+    [Header("Instantiate on dead (optional)")]
+    [SerializeField] GameObject deadBodyPrefab;
+    [SerializeField] Color deadBodyColor;
+
     float health;
     bool dead;
 
@@ -24,10 +29,10 @@ public class LivingEntity : MonoBehaviour
             var effect = Instantiate(hitEffect.gameObject, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
             Destroy(effect, hitEffect.main.startLifetime.constant);
         }
-        TakeDamage(damage);
+        TakeDamage(damage, hitDirection);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 hitDirection)
     {
         if (health > 0 && !dead)
         {
@@ -36,17 +41,29 @@ public class LivingEntity : MonoBehaviour
         else
         {
             health = 0;
-            Die();
+            Die(hitDirection);
         }
     }
 
-    public void Die()
+    public void Die(Vector3 hitDirection)
     {
+        if (deathEffect)
+        {
+            var effect = Instantiate(deathEffect.gameObject, transform.position, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+            Destroy(effect, deathEffect.main.startLifetime.constant);
+        }
+        if (deadBodyPrefab)
+        {
+            GameObject deadBody = Instantiate(deadBodyPrefab, transform.position, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+            deadBody.GetComponent<Renderer>().material.color = deadBodyColor;
+            deadBody.GetComponent<Rigidbody>().AddForce(hitDirection * 20);
+        }
+
         dead = true;
+        GameObject.Destroy(gameObject);
         if (OnDeath != null)
         {
             OnDeath();
         }
-        GameObject.Destroy(gameObject);
     }
 }

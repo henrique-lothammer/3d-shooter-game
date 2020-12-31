@@ -7,7 +7,10 @@ public class AIBiteAttack : MonoBehaviour
     [SerializeField] Transform target;
     [SerializeField] float minDistanceToTarget = 2.5f;
     [SerializeField] float damage = 1;
+    [SerializeField] Color attackColor;
 
+    Renderer rendererComp;
+    Color initialColor;
     float timeBetweenAttacks = 1;
     float nextAttackTime;
 
@@ -15,6 +18,8 @@ public class AIBiteAttack : MonoBehaviour
 
     private void Start()
     {
+        rendererComp = GetComponent<Renderer>();
+        initialColor = rendererComp.material.color;
         if (!target) target = GameObject.FindGameObjectWithTag("Player").transform;
 
         target.GetComponent<LivingEntity>().OnDeath += OnTargetDeath;
@@ -47,7 +52,7 @@ public class AIBiteAttack : MonoBehaviour
         float attackSpeed = 3;
         float percent = 0;
         bool hasBitted = false;
-
+        rendererComp.material.color = attackColor;
         while (percent <= 1)
         {
             if(percent >= 0.5f && !hasBitted)
@@ -62,11 +67,11 @@ public class AIBiteAttack : MonoBehaviour
 
             yield return null;
         }
+        rendererComp.material.color = initialColor;
     }
 
     void OnTargetDeath()
     {
-        if (attack != null) StopCoroutine(attack);
         target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 

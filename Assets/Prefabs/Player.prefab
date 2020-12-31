@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6818761675326910852}
   - component: {fileID: 6818761675326910863}
   - component: {fileID: 6818761675326910855}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -168,8 +168,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8db8eb8b4852b048b8beed4ca1f733d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startHealth: 3
   hitEffect: {fileID: 6580567551653017684, guid: 01c0f3485a844fd4a852a5affffaaa69, type: 3}
-  startHealth: 30
+  deathEffect: {fileID: 3847980097868249816, guid: 0a28f0f4f85a33045a48b1589fc703ea, type: 3}
+  deadBodyPrefab: {fileID: 5496856758598352512, guid: e3aa8ecb1169a154bb1841308bfa016d, type: 3}
+  deadBodyColor: {r: 0.058823533, g: 0.29411766, b: 0.5764706, a: 1}
 --- !u!1 &6818761675614145181
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6818761675614145180}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WeaponHoldPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -31,30 +31,30 @@ public class AIFollow : MonoBehaviour
         }
         else
         {
-            StopCoroutine(updatePath);
+            if (updatePath != null)
+                StopCoroutine(updatePath);
         }
     }
 
     IEnumerator UpdatePath()
     {
         float refreshRate = 0.25f;
-
+        var targetPosition = target.position;
         while (target != null){
 
-            pathfinder.SetDestination(target.position);
-
+            pathfinder.SetDestination(targetPosition);
+            targetPosition = target.position;
             yield return new WaitForSeconds(refreshRate);
         }
     }
 
     void OnTargetDeath()
     {
-        StopCoroutine(updatePath);
         target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void OnDestroy()
     {
-        StopCoroutine(updatePath);
+        if (updatePath != null) StopCoroutine(updatePath);
     }
 }

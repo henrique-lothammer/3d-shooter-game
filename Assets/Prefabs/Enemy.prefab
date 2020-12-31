@@ -151,6 +151,7 @@ MonoBehaviour:
   target: {fileID: 0}
   minDistanceToTarget: 2.5
   damage: 1
+  attackColor: {r: 0.764151, g: 0.11894804, b: 0.11894804, a: 0}
 --- !u!114 &5694118121411750149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,5 +164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8db8eb8b4852b048b8beed4ca1f733d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitEffect: {fileID: 6580567551653017684, guid: 6179cc7b5c2e8344db46166fe5dae7f8, type: 3}
   startHealth: 3
+  hitEffect: {fileID: 6580567551653017684, guid: 6179cc7b5c2e8344db46166fe5dae7f8, type: 3}
+  deathEffect: {fileID: 3847980097868249816, guid: 0a28f0f4f85a33045a48b1589fc703ea, type: 3}
+  deadBodyPrefab: {fileID: 5496856758598352512, guid: e3aa8ecb1169a154bb1841308bfa016d, type: 3}
+  deadBodyColor: {r: 0.21176472, g: 0.41960788, b: 0.16470589, a: 1}
