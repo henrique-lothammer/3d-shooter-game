@@ -4,10 +4,9 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(GunController))]
-public class PlayerInput : MonoBehaviour
+public class PlayerInputJoystick : MonoBehaviour
 {
     Vector3 input;
-    Plane groundPlane;
 
     PlayerMovement playerMovement;
     GunController gunController;
@@ -16,9 +15,6 @@ public class PlayerInput : MonoBehaviour
     {
         playerMovement = GetComponent<PlayerMovement>();
         gunController = GetComponent<GunController>();
-
-        // Generate a plane specific for get mouse position
-        groundPlane = new Plane(Vector3.up, transform.position);
     }
 
     void Update()
@@ -37,26 +33,14 @@ public class PlayerInput : MonoBehaviour
 
     void GetLookDirection()
     {
-        /*  
-            Make a infinite ray from camera to the mouse position on screen
-            and test the intersect of ray with the groundPlane, if intersect set it's length
-            Finally get the point of the ray where it intersects the plane, passing the lenght
-        */
-        
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (groundPlane.Raycast(ray, out float rayLength))
-        {
-            Vector3 point = ray.GetPoint(rayLength);
-            Debug.DrawLine(ray.origin, point, Color.red);
-            playerMovement.LookAt(point);
-        }
-        
+        Vector3 point = new Vector3(transform.position.x + Input.GetAxis("LookX"), transform.position.y, transform.position.z + Input.GetAxis("LookY"));
+       
+        playerMovement.LookAt(point);
     }
 
     void GetShoot()
-    {        
-        if (Input.GetMouseButton(0))
+    {      
+        if (Input.GetAxis("FireTrigger") < 0)
         {
             gunController.Shoot();
         }

@@ -49,7 +49,6 @@ public class Projectile : MonoBehaviour
 
         if (Physics.Raycast(ray,out RaycastHit hit, moveDistance + skinTargetWidthOffset, collisionMask, QueryTriggerInteraction.Collide))
         {
-            print("hit");
             OnHitObject(hit.collider, hit.point);
         }
     }
