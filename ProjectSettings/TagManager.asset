@@ -16,8 +16,8 @@ TagManager:
   - Obstacle
   - DeadBodies
   - Player
-  - 
-  - 
+  - Shell
+  - PlayerBullet
   - 
   - 
   - 

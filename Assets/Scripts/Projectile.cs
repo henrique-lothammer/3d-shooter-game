@@ -5,6 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] LayerMask collisionMask; 
+    [SerializeField] Color trailColor; 
 
     float speed;
     float damage = 1;
@@ -14,6 +15,8 @@ public class Projectile : MonoBehaviour
     private void Start()
     {
         Destroy(gameObject, lifeTime);
+
+        GetComponent<TrailRenderer>().startColor = trailColor;
 
         Collider[] initialCollisions = Physics.OverlapSphere(transform.position, 0.1f, collisionMask);
         if(initialCollisions.Length > 0)
@@ -46,6 +49,7 @@ public class Projectile : MonoBehaviour
 
         if (Physics.Raycast(ray,out RaycastHit hit, moveDistance + skinTargetWidthOffset, collisionMask, QueryTriggerInteraction.Collide))
         {
+            print("hit");
             OnHitObject(hit.collider, hit.point);
         }
     }
