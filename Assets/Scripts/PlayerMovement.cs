@@ -32,9 +32,14 @@ public class PlayerMovement : MonoBehaviour
         movementDirection = direction;
     }
 
-    public void LookAt(Vector3 LookAtPoint)
+    public void LookAt(Vector3 lookAtPoint)
     {
-        Vector3 heightCorrectPoint = new Vector3(LookAtPoint.x,transform.position.y,LookAtPoint.z);
-        transform.LookAt(LookAtPoint);
+        Vector3 heightCorrectPoint = new Vector3(lookAtPoint.x,transform.position.y,lookAtPoint.z);
+        transform.LookAt(lookAtPoint);
+    }
+
+    public void LookAt(float angle)
+    {
+        transform.rotation = Quaternion.Euler(new Vector3(0, angle, 0));
     }
 }

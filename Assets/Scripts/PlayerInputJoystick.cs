@@ -33,13 +33,17 @@ public class PlayerInputJoystick : MonoBehaviour
 
     void GetLookDirection()
     {
-        Vector3 point = new Vector3(transform.position.x + Input.GetAxis("LookX"), transform.position.y, transform.position.z + Input.GetAxis("LookY"));
-       
-        playerMovement.LookAt(point);
+        Vector2 joy = new Vector2(Input.GetAxis("LookX"), Input.GetAxis("LookY"));
+        if (joy.sqrMagnitude > 0.1f)
+        {
+            float angle = Mathf.Atan2(joy.x, joy.y) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(new Vector3(0, angle, 0));
+        }
     }
 
     void GetShoot()
     {      
+        
         if (Input.GetAxis("FireTrigger") < 0)
         {
             gunController.Shoot();
