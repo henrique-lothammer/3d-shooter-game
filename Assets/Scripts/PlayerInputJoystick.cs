@@ -11,10 +11,24 @@ public class PlayerInputJoystick : MonoBehaviour
     PlayerMovement playerMovement;
     GunController gunController;
 
-    void Start()
+    [SerializeField] int joystickNum = 1;
+
+    string jVertical;
+    string jHorizontal;
+    string jLookX;
+    string jLookY;
+    string jFireTrigger;
+
+    void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
         gunController = GetComponent<GunController>();
+
+        jVertical = $"J{joystickNum}Vertical";
+        jHorizontal = $"J{joystickNum}Horizontal";
+        jLookX = $"J{joystickNum}LookX";
+        jLookY = $"J{joystickNum}LookY";
+        jFireTrigger = $"J{joystickNum}FireTrigger";
     }
 
     void Update()
@@ -26,14 +40,23 @@ public class PlayerInputJoystick : MonoBehaviour
 
     void GetMovementDirection()
     {
-        input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        Vector3 direction = input.normalized;
-        playerMovement.SetMovementDirection(direction);
+        input = new Vector3(Input.GetAxis(jHorizontal), 0, Input.GetAxis(jVertical));
+
+        if (input.sqrMagnitude > 0.4f)
+        {
+            Vector3 direction = input.normalized;
+            playerMovement.SetMovementDirection(direction);
+        }
+        else
+        {
+            Vector3 direction = Vector3.zero.normalized;
+            playerMovement.SetMovementDirection(direction);
+        }
     }
 
     void GetLookDirection()
     {
-        Vector2 joy = new Vector2(Input.GetAxis("LookX"), Input.GetAxis("LookY"));
+        Vector2 joy = new Vector2(Input.GetAxis(jLookX), Input.GetAxis(jLookY));
         if (joy.sqrMagnitude > 0.1f)
         {
             float angle = Mathf.Atan2(joy.x, joy.y) * Mathf.Rad2Deg;
@@ -44,7 +67,7 @@ public class PlayerInputJoystick : MonoBehaviour
     void GetShoot()
     {      
         
-        if (Input.GetAxis("FireTrigger") < 0)
+        if (Input.GetAxis(jFireTrigger) == 1)
         {
             gunController.Shoot();
         }
